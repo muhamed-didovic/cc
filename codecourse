@@ -8,7 +8,7 @@ use Symfony\Component\Console\Application;
 require 'vendor/autoload.php';
 
 const DEFAULT_DIR = __DIR__;
-$dotenv = new Dotenv(DEFAULT_DIR);
+$dotenv = Dotenv::createUnsafeImmutable(__DIR__); //new Dotenv(DEFAULT_DIR);
 $dotenv->load();
 $app = new Application('Codecourse downloader', '2.0');
 $app->add(new DownloadCommand());
