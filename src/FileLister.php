@@ -2,8 +2,9 @@
 
 namespace App;
 
+
 use League\Flysystem\Filesystem;
-use League\Flysystem\Adapter\Local as Adapter;
+use League\Flysystem\Local\LocalFilesystemAdapter;
 
 class FileLister
 {
@@ -11,9 +12,14 @@ class FileLister
 
     public function __construct()
     {
-        $this->file = new Filesystem(
-            new Adapter(getenv('DOWNLOAD_FOLDER'))
+        // The internal adapter
+        $adapter = new LocalFilesystemAdapter(
+        // Determine root directory
+            getenv('DOWNLOAD_FOLDER')
         );
+    
+        // The FilesystemOperator
+        $this->file = new Filesystem($adapter);
     }
 
     public function all()
@@ -51,7 +57,7 @@ class FileLister
 
     public function exists($folder)
     {
-        return $this->file->has($folder);
+        return $this->file->fileExists($folder);
     }
 
     /**
